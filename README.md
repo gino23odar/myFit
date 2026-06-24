@@ -22,32 +22,17 @@ The local database runs at `localhost:5432` with:
 - Username: `wardrove`
 - Password: `wardrove`
 
-PostgreSQL only applies `POSTGRES_DB`, `POSTGRES_USER`, and `POSTGRES_PASSWORD` when its data volume is first created. If you previously started this project with different credentials, recreate the local development volume before running the backend:
-
-```bash
-docker compose down --volumes --remove-orphans
-docker compose up -d postgres
-```
-
-You can confirm the configured local credentials with:
-
-```bash
-docker compose exec postgres pg_isready -U wardrove -d wardrove
-```
-
 ### Run the backend
 
 ```bash
 cd backend
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
-The backend defaults to the same local database credentials as `docker-compose.yml`. If you use a different local PostgreSQL user, set all three datasource environment variables before starting the app.
+If the Maven wrapper is not present, use your installed Maven:
 
 ```bash
-SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/wardrove \
-SPRING_DATASOURCE_USERNAME=wardrove \
-SPRING_DATASOURCE_PASSWORD=wardrove \
+cd backend
 mvn spring-boot:run
 ```
 
@@ -71,17 +56,3 @@ The backend defaults to local PostgreSQL values, and each can be overridden with
 - `SPRING_DATASOURCE_URL`
 - `SPRING_DATASOURCE_USERNAME`
 - `SPRING_DATASOURCE_PASSWORD`
-
-
-### Troubleshooting local PostgreSQL authentication
-
-If startup fails with `FATAL: password authentication failed for user "wardrove"`, the application is reaching PostgreSQL, but the password in the existing database does not match the backend configuration. For the local Docker database, the quickest fix is to recreate the dev-only volume:
-
-```bash
-docker compose down --volumes --remove-orphans
-docker compose up -d postgres
-cd backend
-mvn spring-boot:run
-```
-
-Only use `--volumes` for local development data you are comfortable deleting. If you are connecting to a non-Docker PostgreSQL instance, keep the database and instead set `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, and `SPRING_DATASOURCE_PASSWORD` to match that instance.
