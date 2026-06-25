@@ -3,15 +3,15 @@ services:
     image: postgres:16-alpine
     container_name: wardrove-postgres
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-wardrove}
-      POSTGRES_USER: ${POSTGRES_USER:-wardrove}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-wardrove}
+      POSTGRES_DB: wardrove
+      POSTGRES_USER: wardrove
+      POSTGRES_PASSWORD: wardrove
     ports:
       - "5432:5432"
     volumes:
       - wardrove_postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-wardrove} -d $${POSTGRES_DB:-wardrove}"]
+      test: ["CMD-SHELL", "pg_isready -U wardrove -d wardrove"]
       interval: 10s
       timeout: 5s
       retries: 5

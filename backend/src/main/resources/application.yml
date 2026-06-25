@@ -22,10 +22,3 @@ management:
     health:
       probes:
         enabled: true
-
-wardrove:
-  auth:
-    jwt:
-      secret: ${WARDROVE_JWT_SECRET:local-development-secret-key-change-me-please-32-bytes}
-      access-token-ttl: ${WARDROVE_ACCESS_TOKEN_TTL:15m}
-      refresh-token-ttl: ${WARDROVE_REFRESH_TOKEN_TTL:30d}
